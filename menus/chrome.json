@@ -1,0 +1,36 @@
+{
+  "name": "Chrome",
+  "match": {
+    "appId": ["google-chrome.desktop", "com.google.Chrome.desktop"],
+    "wmClass": ["Google-chrome"]
+  },
+  "menus": [
+    {
+      "label": "File",
+      "items": [
+        {"label": "New Tab", "shortcut": "Ctrl+T", "action": {"type": "keys", "keys": "ctrl+t"}},
+        {"label": "New Window", "shortcut": "Ctrl+N", "action": {"type": "keys", "keys": "ctrl+n"}},
+        {"label": "New Incognito Window", "shortcut": "Ctrl+Shift+N", "action": {"type": "keys", "keys": "ctrl+shift+n"}},
+        {"separator": true},
+        {"label": "Close Tab", "shortcut": "Ctrl+W", "action": {"type": "keys", "keys": "ctrl+w"}}
+      ]
+    },
+    {
+      "label": "History",
+      "items": [
+        {"label": "Show Full History", "shortcut": "Ctrl+H", "action": {"type": "keys", "keys": "ctrl+h"}},
+        {"label": "Reopen Closed Tab", "shortcut": "Ctrl+Shift+T", "action": {"type": "keys", "keys": "ctrl+shift+t"}}
+      ]
+    },
+    {
+      "label": "Window",
+      "items": [
+        {"label": "Downloads", "shortcut": "Ctrl+J", "action": {"type": "keys", "keys": "ctrl+j"}},
+        {"label": "Bookmark Manager", "shortcut": "Ctrl+Shift+O", "action": {"type": "keys", "keys": "ctrl+shift+o"}},
+        {"label": "Developer Tools", "shortcut": "Ctrl+Shift+I", "action": {"type": "keys", "keys": "ctrl+shift+i"}},
+        {"separator": true},
+        {"label": "Settings", "action": {"type": "command", "argv": ["google-chrome", "chrome://settings"]}}
+      ]
+    }
+  ]
+}

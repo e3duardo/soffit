@@ -1,0 +1,66 @@
+{
+  "name": "Code",
+  "match": {
+    "appId": ["code.desktop", "com.microsoft.VSCode.desktop"],
+    "wmClass": ["Code"]
+  },
+  "menus": [
+    {
+      "label": "File",
+      "items": [
+        {"label": "New File", "shortcut": "Ctrl+N", "action": {"type": "keys", "keys": "ctrl+n"}},
+        {"label": "New Window", "shortcut": "Ctrl+Shift+N", "action": {"type": "keys", "keys": "ctrl+shift+n"}},
+        {"separator": true},
+        {"label": "Open Folder…", "shortcut": "Ctrl+K Ctrl+O", "action": {"type": "keys", "keys": "ctrl+k ctrl+o"}},
+        {"label": "Save", "shortcut": "Ctrl+S", "action": {"type": "keys", "keys": "ctrl+s"}},
+        {"separator": true},
+        {"label": "Settings", "shortcut": "Ctrl+,", "action": {"type": "keys", "keys": "ctrl+comma"}}
+      ]
+    },
+    {
+      "label": "Edit",
+      "items": [
+        {"label": "Undo", "shortcut": "Ctrl+Z", "action": {"type": "keys", "keys": "ctrl+z"}},
+        {"label": "Redo", "shortcut": "Ctrl+Shift+Z", "action": {"type": "keys", "keys": "ctrl+shift+z"}},
+        {"separator": true},
+        {"label": "Cut", "shortcut": "Ctrl+X", "action": {"type": "keys", "keys": "ctrl+x"}},
+        {"label": "Copy", "shortcut": "Ctrl+C", "action": {"type": "keys", "keys": "ctrl+c"}},
+        {"label": "Paste", "shortcut": "Ctrl+V", "action": {"type": "keys", "keys": "ctrl+v"}},
+        {"separator": true},
+        {"label": "Find", "shortcut": "Ctrl+F", "action": {"type": "keys", "keys": "ctrl+f"}},
+        {"label": "Replace", "shortcut": "Ctrl+H", "action": {"type": "keys", "keys": "ctrl+h"}},
+        {
+          "label": "Format Document",
+          "action": {
+            "type": "macro",
+            "steps": [
+              {"type": "keys", "keys": "ctrl+shift+p"},
+              {"type": "delay", "ms": 250},
+              {"type": "text", "text": "Format Document"},
+              {"type": "delay", "ms": 250},
+              {"type": "keys", "keys": "Return"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "label": "View",
+      "items": [
+        {"label": "Command Palette…", "shortcut": "Ctrl+Shift+P", "action": {"type": "keys", "keys": "ctrl+shift+p"}},
+        {"separator": true},
+        {"label": "Toggle Sidebar", "shortcut": "Ctrl+B", "action": {"type": "keys", "keys": "ctrl+b"}},
+        {"label": "Toggle Panel", "shortcut": "Ctrl+J", "action": {"type": "keys", "keys": "ctrl+j"}}
+      ]
+    },
+    {
+      "label": "Go",
+      "items": [
+        {"label": "Go to File…", "shortcut": "Ctrl+P", "action": {"type": "keys", "keys": "ctrl+p"}},
+        {"label": "Go to Line…", "shortcut": "Ctrl+G", "action": {"type": "keys", "keys": "ctrl+g"}},
+        {"separator": true},
+        {"label": "Open Home in Files", "action": {"type": "command", "argv": ["nautilus", "--new-window"]}}
+      ]
+    }
+  ]
+}

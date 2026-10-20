@@ -1,0 +1,6 @@
+{
+  "uuid": "smoke-test@soffit",
+  "name": "Soffit smoke test",
+  "description": "Drives Soffit's menus inside a throwaway headless shell. Do not install.",
+  "shell-version": ["48"]
+}

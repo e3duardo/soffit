@@ -1,0 +1,20 @@
+/* Proof of concept: just enough to tell the bar apart. The macOS look
+   (sizes, blur, rounded menus) comes later, measured side by side. */
+
+.soffit-button {
+    -natural-hpadding: 8px;
+    -minimum-hpadding: 4px;
+}
+
+.soffit-label {
+    font-weight: normal;
+}
+
+.soffit-app-name {
+    font-weight: bold;
+}
+
+.soffit-shortcut {
+    color: rgba(255, 255, 255, 0.5);
+    padding-left: 24px;
+}

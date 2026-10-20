@@ -1,0 +1,8 @@
+{
+  "uuid": "soffit@e3duardo.github.io",
+  "name": "Soffit",
+  "description": "A macOS-style global menu bar for GNOME, driven by per-app menu definitions. Personal project, proof of concept.",
+  "shell-version": ["48"],
+  "url": "https://github.com/e3duardo/soffit",
+  "version": 1
+}

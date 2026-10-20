@@ -1,0 +1,37 @@
+{
+  "name": "Files",
+  "match": {
+    "appId": ["org.gnome.Nautilus.desktop"],
+    "wmClass": ["org.gnome.Nautilus"]
+  },
+  "menus": [
+    {
+      "label": "File",
+      "items": [
+        {"label": "New Window", "shortcut": "Ctrl+N", "action": {"type": "dbus", "app": "org.gnome.Nautilus", "name": "new-window"}},
+        {"label": "New Folder", "shortcut": "Ctrl+Shift+N", "action": {"type": "keys", "keys": "ctrl+shift+n"}},
+        {"separator": true},
+        {"label": "Preferences", "action": {"type": "dbus", "app": "org.gnome.Nautilus", "name": "preferences"}},
+        {"label": "About Files", "action": {"type": "dbus", "app": "org.gnome.Nautilus", "name": "about"}}
+      ]
+    },
+    {
+      "label": "Edit",
+      "items": [
+        {"label": "Undo", "shortcut": "Ctrl+Z", "action": {"type": "keys", "keys": "ctrl+z"}},
+        {"separator": true},
+        {"label": "Cut", "shortcut": "Ctrl+X", "action": {"type": "keys", "keys": "ctrl+x"}},
+        {"label": "Copy", "shortcut": "Ctrl+C", "action": {"type": "keys", "keys": "ctrl+c"}},
+        {"label": "Paste", "shortcut": "Ctrl+V", "action": {"type": "keys", "keys": "ctrl+v"}},
+        {"label": "Select All", "shortcut": "Ctrl+A", "action": {"type": "keys", "keys": "ctrl+a"}}
+      ]
+    },
+    {
+      "label": "View",
+      "items": [
+        {"label": "Show Hidden Files", "shortcut": "Ctrl+H", "action": {"type": "keys", "keys": "ctrl+h"}},
+        {"label": "Show File Transfers", "action": {"type": "dbus", "app": "org.gnome.Nautilus", "name": "show-file-transfers"}}
+      ]
+    }
+  ]
+}
