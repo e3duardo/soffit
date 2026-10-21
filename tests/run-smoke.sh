@@ -27,8 +27,9 @@ gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell \
 
 WAYLAND_DISPLAY=wayland-0 GDK_BACKEND=wayland gnome-text-editor --new-window > /dev/null 2>&1 &
 sleep 3
-$ext.EnableExtension soffit@e3duardo.github.io > /dev/null
-sleep 1
+# Only the test is enabled through the settings; it enables Soffit itself
+# (two EnableExtension calls race on enabled-extensions here and the
+# second one drops the first).
 $ext.EnableExtension smoke-test@soffit > /dev/null
 
 for _ in $(seq 1 60); do grep -q '\[soffit-test\] DONE' "$tmp/shell.log" && break; sleep 0.5; done

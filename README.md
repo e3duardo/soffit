@@ -89,6 +89,17 @@ dbus-run-session -- gnome-shell --nested --wayland
 opens a GNOME Shell inside a window; a broken extension only affects that
 window.
 
+### Automated smoke test
+
+```sh
+tests/run-smoke.sh
+```
+
+Starts a headless GNOME Shell isolated from your session (its own D-Bus,
+dconf and extension dir), opens GNOME Text Editor and drives Soffit's real
+menus: checks the bar, types text, runs a macro and minimizes the window
+through the Window menu. Prints `PASS`/`FAIL` lines.
+
 ## Hiding the apps' own menus
 
 Soffit doesn't remove menus from inside the apps. Per app:

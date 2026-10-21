@@ -14,9 +14,11 @@ import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-// Time for the popup menu to close and the target window to take keyboard
-// focus back before we type into it.
-const REFOCUS_DELAY_MS = 150;
+// Waiting for the popup menu to close and the target window to take
+// keyboard focus back before we type into it (see _refocus).
+const REFOCUS_TIMEOUT_MS = 3000;
+const POLL_MS = 20;
+const SETTLE_MS = 100;
 const KEY_GAP_MS = 15;
 
 const MODIFIERS = {
@@ -73,12 +75,18 @@ export class ActionRunner {
         this._keyboard = null;
     }
 
-    async run(action, window) {
-        try {
-            await this._run(action, window, true);
-        } catch (e) {
-            console.error(`[soffit] action ${JSON.stringify(action)} failed: ${e.message}`);
-        }
+    // Actions run one at a time: a second item clicked while the first is
+    // still waiting for focus would otherwise interleave its keys with the
+    // first one's (a pending Ctrl+A landing in the middle of typed text).
+    run(action, window) {
+        this._queue = (this._queue ?? Promise.resolve()).then(async () => {
+            try {
+                await this._run(action, window, true);
+            } catch (e) {
+                console.error(`[soffit] action ${JSON.stringify(action)} failed: ${e.message}`);
+            }
+        });
+        return this._queue;
     }
 
     async _run(action, window, refocus) {
@@ -120,12 +128,20 @@ export class ActionRunner {
         }
     }
 
+    // Keys sent while the shell holds a modal grab (our closing menu, or any
+    // system dialog) never reach the app, so wait until nothing is modal and
+    // the window has focus again, and refuse to type if that never happens.
     async _refocus(window) {
-        await sleep(REFOCUS_DELAY_MS);
-        if (window && !window.has_focus()) {
-            Main.activateWindow(window);
-            await sleep(REFOCUS_DELAY_MS);
+        for (let waited = 0; ; waited += POLL_MS) {
+            if (window && !window.has_focus())
+                Main.activateWindow(window);
+            if (Main.modalCount === 0 && (!window || window.has_focus()))
+                break;
+            if (waited >= REFOCUS_TIMEOUT_MS)
+                throw new Error(`shell still modal (${Main.modalCount}) or window unfocused after ${waited}ms; not typing blind`);
+            await sleep(POLL_MS);
         }
+        await sleep(SETTLE_MS);
     }
 
     _key(keyval, state) {
