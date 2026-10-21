@@ -99,6 +99,8 @@ Starts a headless GNOME Shell isolated from your session (its own D-Bus,
 dconf and extension dir), opens GNOME Text Editor and drives Soffit's real
 menus: checks the bar, types text, runs a macro and minimizes the window
 through the Window menu. Prints `PASS`/`FAIL` lines.
+`NESTED=1 tests/run-smoke.sh` runs it in a visible window, slowed down so
+you can watch it.
 
 ## Hiding the apps' own menus
 

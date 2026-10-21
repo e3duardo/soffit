@@ -161,8 +161,16 @@ export class ActionRunner {
     async _sendText(text) {
         for (const ch of text) {
             const keyval = Clutter.unicode_to_keysym(ch.codePointAt(0));
+            // The native backend adds Shift for uppercase keyvals by itself,
+            // the X11 one (nested shell) doesn't; holding it is harmless in
+            // both.
+            const shift = ch !== ch.toLowerCase();
+            if (shift)
+                this._key(Clutter.KEY_Shift_L, Clutter.KeyState.PRESSED);
             this._key(keyval, Clutter.KeyState.PRESSED);
             this._key(keyval, Clutter.KeyState.RELEASED);
+            if (shift)
+                this._key(Clutter.KEY_Shift_L, Clutter.KeyState.RELEASED);
             await sleep(KEY_GAP_MS);
         }
     }

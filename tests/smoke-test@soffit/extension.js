@@ -28,6 +28,10 @@ async function waitFor(what, fn, timeoutMs = 15000) {
     throw new Error(`timed out waiting for ${what}`);
 }
 
+// NESTED=1 runs set this so a person watching can follow each step.
+const PAUSE_MS = GLib.getenv('SOFFIT_TEST_PAUSE') ? 1500 : 0;
+const pause = () => sleep(PAUSE_MS);
+
 function check(name, ok, detail = '') {
     console.log(`[soffit-test] ${ok ? 'PASS' : 'FAIL'} ${name}${detail ? ` (${detail})` : ''}`);
 }
@@ -58,6 +62,7 @@ async function clickItem(soffit, menuLabel, itemLabel) {
         throw new Error(`no "${menuLabel}" menu`);
     button.menu.open();
     await sleep(300);
+    await pause();
     const item = button.menu._getMenuItems().find(i => i.label?.text === itemLabel);
     if (!item)
         throw new Error(`no "${itemLabel}" item in "${menuLabel}"`);
@@ -107,6 +112,7 @@ export default class SmokeTest extends Extension {
 
         const labels = ext._buttons.map(b => b.get_first_child()?.text);
         check('bar shows app + menus', labels.join(',') === 'Text Editor,Edit,Window', labels.join(','));
+        await pause();
 
         // A fresh profile gets the "Welcome to GNOME" dialog, which keeps
         // the shell modal and swallows every key we send. Close it.
@@ -119,12 +125,14 @@ export default class SmokeTest extends Extension {
         await sleep(800);
         let text = await editorText(ext, editor);
         check('text action reached the editor', text === 'soffit works', `editor has "${text}"`);
+        await pause();
         check('focus back on editor after menu', global.display.focus_window === editor);
 
         await clickItem(ext, 'Edit', 'Type With Shortcut');
         await sleep(800);
         text = await editorText(ext, editor);
         check('macro replaced the text, uppercase included', text === 'Macro ok', `editor has "${text}"`);
+        await pause();
 
         await clickItem(ext, 'Window', 'Minimize');
         await sleep(800);
