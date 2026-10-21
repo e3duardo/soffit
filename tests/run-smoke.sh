@@ -43,8 +43,7 @@ gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell \
 WAYLAND_DISPLAY=wayland-0 GDK_BACKEND=wayland gnome-text-editor --new-window > /dev/null 2>&1 &
 sleep 3
 # Only the test is enabled through the settings; it enables Soffit itself
-# (two EnableExtension calls race on enabled-extensions here and the
-# second one drops the first).
+# and waits for it, so the run doesn't depend on settings round-trips.
 $ext.EnableExtension smoke-test@soffit > /dev/null
 
 for _ in $(seq 1 180); do grep -q '\[soffit-test\] DONE' "$tmp/shell.log" && break; sleep 0.5; done
@@ -53,8 +52,13 @@ $ext.GetExtensionErrors soffit@e3duardo.github.io
 kill $shell
 EOF
 
+# The isolation variables must be set before dbus-run-session: the bus it
+# starts activates dconf-service with ITS environment, and a dconf-service
+# pointed at the real ~/.config writes the test's settings (like
+# enabled-extensions) into the desktop session.
 echo "extension errors (empty is good):"
-timeout 150 dbus-run-session -- sh "$tmp/session.sh" "$tmp" "$mode" "$host_display" "$host_x11" 2>/dev/null |
+XDG_CONFIG_HOME=$tmp/config XDG_DATA_HOME=$tmp/data XDG_RUNTIME_DIR=$tmp/run \
+    timeout 150 dbus-run-session -- sh "$tmp/session.sh" "$tmp" "$mode" "$host_display" "$host_x11" 2>/dev/null |
     grep -vE '^(GNOME_KEYRING|SSH_AUTH|SpiRegistry)'
 grep -E '\[soffit(-test)?\]|JS ERROR' "$tmp/shell.log"
 
